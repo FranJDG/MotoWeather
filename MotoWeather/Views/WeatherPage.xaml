@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MotoWeather.Views.WeatherPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="WeatherPage">
+
+    <ScrollView BackgroundColor="#e8e8e8">
+
+        <Grid Margin="20">
+
+            <ActivityIndicator
+                x:Name="loadingIndicator"
+                IsRunning="False"
+                IsVisible="False"
+                VerticalOptions="CenterAndExpand"
+                Color="Blue" />
+
+            <StackLayout Spacing="10">
+                <Grid ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="60" />
+                    </Grid.ColumnDefinitions>
+
+                    <Entry
+                        x:Name="cityEntry"
+                        Grid.Column="0"
+                        Placeholder="Ciudad" />
+                    <ImageButton
+                        Grid.Column="1"
+                        Clicked="Search_Clicked"
+                        Source="search.png" />
+                </Grid>
+
+                <Label
+                    x:Name="startMessage"
+                    HorizontalOptions="CenterAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Text="Introduce una ciudad para mostrar el pronóstico del tiempo"
+                    TextColor="Gray"
+                    VerticalOptions="CenterAndExpand" />
+
+                <StackLayout
+                    x:Name="Main"
+                    IsVisible="False"
+                    Spacing="10">
+
+                    <Frame BackgroundColor="#d1d1d1">
+
+                        <!--  Datos meteorológicos actuales  -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackLayout
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Spacing="10">
+
+                                <HorizontalStackLayout Spacing="5">
+                                    <Image Source="location_on.png" />
+                                    <Label
+                                        x:Name="city"
+                                        FontAttributes="Bold"
+                                        FontSize="Large"
+                                        Text="{Binding City}" />
+                                </HorizontalStackLayout>
+
+                                <HorizontalStackLayout Spacing="5">
+                                    <Image Source="thermometer.png" />
+                                    <Label
+                                        x:Name="temperature"
+                                        FontAttributes="Bold"
+                                        FontSize="Large" />
+                                </HorizontalStackLayout>
+
+                                <HorizontalStackLayout Spacing="5">
+                                    <Image Source="humidity_low.png" />
+                                    <Label x:Name="humidity" FontAttributes="Bold" />
+                                </HorizontalStackLayout>
+
+                                <HorizontalStackLayout Spacing="5">
+                                    <Image Source="air.png" />
+                                    <Label x:Name="windSpeed" FontAttributes="Bold" />
+                                    <Image x:Name="windDirection" Source="direction.png" />
+                                </HorizontalStackLayout>
+
+                                <HorizontalStackLayout Spacing="5">
+                                    <Image Source="wb_twilight.png" />
+                                    <Label x:Name="sun" FontAttributes="Bold" />
+                                </HorizontalStackLayout>
+
+                            </StackLayout>
+
+                            <StackLayout
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                VerticalOptions="CenterAndExpand">
+
+                                <Label
+                                    x:Name="description"
+                                    FontAttributes="Bold"
+                                    FontSize="Default"
+                                    HorizontalOptions="CenterAndExpand"
+                                    TextTransform="Uppercase" />
+
+                                <Grid>
+                                    <!--  La Url para mostrar las imágenes en Windows y Android son diferentes, http funciona en windows y https funciona en android  -->
+                                    <Image
+                                        x:Name="iconAndroid"
+                                        Aspect="AspectFit"
+                                        HeightRequest="100"
+                                        Source="{Binding WeatherConditions[0].Icon, StringFormat='https://openweathermap.org/img/wn/{0}@2x.png'}" />
+                                    <Image
+                                        x:Name="iconWin"
+                                        Aspect="AspectFit"
+                                        HeightRequest="100"
+                                        Source="{Binding WeatherConditions[0].Icon, StringFormat='http://openweathermap.org/img/w/{0}.png'}" />
+                                </Grid>
+
+                                <Label
+                                    x:Name="temperatureInfo"
+                                    FontSize="10"
+                                    HorizontalOptions="CenterAndExpand" />
+
+                            </StackLayout>
+
+                        </Grid>
+                    </Frame>
+
+                    <!--  Pronóstico  -->
+                    <!--
+                    <ListView x:Name="ListViewForecast" RowHeight="200">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <Label Text="{Binding DateTimeText}" />
+                                        <Label Text="{Binding WeatherConditions[0].Description}" />
+                                        <Label Text="{Binding Wind.Speed}" />
+                                        <Label Text="{Binding MainData.TemperatureMin}" />
+                                        <Label Text="{Binding MainData.TemperatureMax}" />
+                                        <Grid>
+                                            <Image HeightRequest="100" Source="{Binding WeatherConditions[0].Icon, StringFormat='http://openweathermap.org/img/wn/{0}.png'}" />
+                                            <Image HeightRequest="100" Source="{Binding WeatherConditions[0].Icon, StringFormat='https://openweathermap.org/img/wn/{0}@2x.png'}" />
+                                        </Grid>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    -->
+
+                </StackLayout>
+
+            </StackLayout>
+
+        </Grid>
+
+    </ScrollView>
+
+</ContentPage>
