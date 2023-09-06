@@ -1,7 +1,5 @@
 ﻿using MotoWeather.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Reflection;
 
 namespace MotoWeather.Controllers
 {
