@@ -13,8 +13,6 @@ public partial class WeatherPage : ContentPage
     {
         InitializeComponent();
 
-        //LoadWeatherDataAsync();
-
     }
 
     private async void LoadWeatherDataAsync(string city)
