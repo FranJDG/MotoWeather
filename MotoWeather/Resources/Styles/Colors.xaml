@@ -39,5 +39,17 @@
     <Color x:Key="Blue200Accent">#72ACF1</Color>
     <Color x:Key="Blue300Accent">#A7CBF6</Color>
 
+    <!--  Mis estilos  -->
+    <Color x:Key="FramesLetters">#7D848F</Color>
+    <Color x:Key="FramesTransparent">Transparent</Color>
+
+    <!--  Dark  -->
+    <Color x:Key="BackgroundDark">#0B131E</Color>
+    <Color x:Key="FramesDark">#202B3B</Color>
+
+    <!--  White  -->
+    <Color x:Key="BackgoundWhite">#F5F5F5</Color>
+    <Color x:Key="FramesWhite">#E4E6E8</Color>
+
 </ResourceDictionary>
 

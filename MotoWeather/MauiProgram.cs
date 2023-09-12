@@ -1,42 +1,35 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using System.Reflection;
+﻿using Microsoft.Extensions.Logging;
 
 namespace MotoWeather
 {
     public static class MauiProgram
     {
-        //User Secrets
-        private const string Namespace = "MotoWeather";
-        private const string FileName = "secrets.json";
-
-        // Agrega estas dos variables estáticas para almacenar las claves
-        public static string WeatherAPIKey { get; private set; }
-        public static string Password { get; private set; }
-        //
-
-
         public static MauiApp CreateMauiApp()
         {
-            //User Secrets
-            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{Namespace}.{FileName}");
-            var config = new ConfigurationBuilder().AddJsonStream(stream).Build();
             var builder = MauiApp.CreateBuilder();
-            builder.Configuration.AddConfiguration(config);
-            //
 
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
+                    fonts.AddFont("Sono-Bold.ttf", "SonoBold");
+                    fonts.AddFont("Sono-ExtraBold.ttf", "SonoExtraBold");
+                    fonts.AddFont("Sono-ExtraLight.ttf", "SonoExtraLight");
+                    fonts.AddFont("Sono-Light.ttf", "SonoLight");
+                    fonts.AddFont("Sono-Medium.ttf", "SonoMedium");
+                    fonts.AddFont("Sono-Regular.ttf", "SonoRegular");
+                    fonts.AddFont("Sono-SemiBold.ttf", "SonoSemiBold");
+
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+
+                    //Iconos
+                    fonts.AddFont("Brands-Regular-400,otf", "FAB"); //Font awesome brands
+                    fonts.AddFont("Free-Regular-400.otf", "FAR"); //Font awesome regular
+                    fonts.AddFont("Free-Solid-900.otf", "FAS"); //Font awesome solid
+                    fonts.AddFont("MaterialIcons-Regular.ttf", "MIR"); //Material icons regular
                 });
 
-            //User Secrets keys
-            WeatherAPIKey = config.GetSection("WeatherAPIKey").Value;
-            Password = config.GetSection("Password").Value;
-            //
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

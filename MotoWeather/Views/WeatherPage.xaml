@@ -3,42 +3,34 @@
     x:Class="MotoWeather.Views.WeatherPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="WeatherPage">
+    xmlns:models="clr-namespace:MotoWeather.Models"
+    Title="WeatherPage"
+    BackgroundColor="{AppThemeBinding Light={StaticResource BackgoundWhite},
+                                      Dark={StaticResource BackgroundDark}}">
 
-    <ScrollView BackgroundColor="#e8e8e8">
+    <AbsoluteLayout Margin="20">
 
-        <Grid Margin="20">
-
-            <ActivityIndicator
-                x:Name="loadingIndicator"
-                IsRunning="False"
-                IsVisible="False"
-                VerticalOptions="CenterAndExpand"
-                Color="Blue" />
+        <ScrollView
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            VerticalScrollBarVisibility="Never">
 
             <StackLayout Spacing="10">
-                <Grid ColumnSpacing="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="60" />
-                    </Grid.ColumnDefinitions>
 
+                <Frame Padding="10,0">
                     <Entry
                         x:Name="cityEntry"
-                        Grid.Column="0"
-                        Placeholder="Ciudad" />
-                    <ImageButton
-                        Grid.Column="1"
-                        Clicked="Search_Clicked"
-                        Source="search.png" />
-                </Grid>
+                        Completed="Search_Clicked"
+                        Placeholder="Ciudad o código postal"
+                        PlaceholderColor="{StaticResource FramesLetters}" />
+                </Frame>
 
                 <Label
                     x:Name="startMessage"
                     HorizontalOptions="CenterAndExpand"
                     HorizontalTextAlignment="Center"
                     Text="Introduce una ciudad para mostrar el pronóstico del tiempo"
-                    TextColor="Gray"
+                    TextColor="{StaticResource FramesLetters}"
                     VerticalOptions="CenterAndExpand" />
 
                 <StackLayout
@@ -46,120 +38,396 @@
                     IsVisible="False"
                     Spacing="10">
 
-                    <Frame BackgroundColor="#d1d1d1">
+                    <!--  Datos meteorológicos actuales  -->
 
-                        <!--  Datos meteorológicos actuales  -->
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <StackLayout
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Spacing="10">
-
-                                <HorizontalStackLayout Spacing="5">
-                                    <Image Source="location_on.png" />
-                                    <Label
-                                        x:Name="city"
-                                        FontAttributes="Bold"
-                                        FontSize="Large"
-                                        Text="{Binding City}" />
-                                </HorizontalStackLayout>
-
-                                <HorizontalStackLayout Spacing="5">
-                                    <Image Source="thermometer.png" />
-                                    <Label
-                                        x:Name="temperature"
-                                        FontAttributes="Bold"
-                                        FontSize="Large" />
-                                </HorizontalStackLayout>
-
-                                <HorizontalStackLayout Spacing="5">
-                                    <Image Source="humidity_low.png" />
-                                    <Label x:Name="humidity" FontAttributes="Bold" />
-                                </HorizontalStackLayout>
-
-                                <HorizontalStackLayout Spacing="5">
-                                    <Image Source="air.png" />
-                                    <Label x:Name="windSpeed" FontAttributes="Bold" />
-                                    <Image x:Name="windDirection" Source="direction.png" />
-                                </HorizontalStackLayout>
-
-                                <HorizontalStackLayout Spacing="5">
-                                    <Image Source="wb_twilight.png" />
-                                    <Label x:Name="sun" FontAttributes="Bold" />
-                                </HorizontalStackLayout>
-
-                            </StackLayout>
-
-                            <StackLayout
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                VerticalOptions="CenterAndExpand">
-
-                                <Label
-                                    x:Name="description"
-                                    FontAttributes="Bold"
-                                    FontSize="Default"
-                                    HorizontalOptions="CenterAndExpand"
-                                    TextTransform="Uppercase" />
-
-                                <Grid>
-                                    <!--  La Url para mostrar las imágenes en Windows y Android son diferentes, http funciona en windows y https funciona en android  -->
-                                    <Image
-                                        x:Name="iconAndroid"
-                                        Aspect="AspectFit"
-                                        HeightRequest="100"
-                                        Source="{Binding WeatherConditions[0].Icon, StringFormat='https://openweathermap.org/img/wn/{0}@2x.png'}" />
-                                    <Image
-                                        x:Name="iconWin"
-                                        Aspect="AspectFit"
-                                        HeightRequest="100"
-                                        Source="{Binding WeatherConditions[0].Icon, StringFormat='http://openweathermap.org/img/w/{0}.png'}" />
-                                </Grid>
-
-                                <Label
-                                    x:Name="temperatureInfo"
-                                    FontSize="10"
-                                    HorizontalOptions="CenterAndExpand" />
-
-                            </StackLayout>
-
+                    <StackLayout HorizontalOptions="FillAndExpand">
+                        <Label
+                            x:Name="city"
+                            FontAttributes="Bold"
+                            FontSize="40"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding City}" />
+                        <Label
+                            x:Name="description"
+                            Margin="0,10,0,0"
+                            FontSize="15"
+                            HorizontalTextAlignment="Center"
+                            TextColor="{StaticResource FramesLetters}" />
+                        <Grid Margin="0,-30,0,0">
+                            <!--  La Url para mostrar las imágenes en Windows y Android son diferentes, http funciona en windows y https funciona en android  -->
+                            <Image
+                                x:Name="iconAndroid"
+                                Aspect="AspectFit"
+                                HeightRequest="150"
+                                Source="{Binding WeatherConditions[0].Icon, StringFormat='https://openweathermap.org/img/wn/{0}@2x.png'}" />
+                            <Image
+                                x:Name="iconWin"
+                                Aspect="AspectFit"
+                                HeightRequest="150"
+                                Source="{Binding WeatherConditions[0].Icon, StringFormat='http://openweathermap.org/img/w/{0}.png'}" />
                         </Grid>
+                        <Label
+                            x:Name="temperature"
+                            Margin="0,-30,0,0"
+                            FontAttributes="Bold"
+                            FontSize="40"
+                            HorizontalTextAlignment="Center" />
+                        <HorizontalStackLayout HorizontalOptions="End">
+                            <Label
+                                x:Name="infoUpdate"
+                                FontSize="12"
+                                TextColor="{StaticResource FramesLetters}"
+                                VerticalOptions="Center" />
+                            <ImageButton
+                                x:Name="updateButton"
+                                BackgroundColor="Transparent"
+                                Clicked="updateButton_Clicked"
+                                HeightRequest="20">
+                                <ImageButton.Source>
+                                    <FontImageSource
+                                        FontFamily="MIR"
+                                        Glyph="{x:Static models:IconFontMaterial.Update}"
+                                        Size="30"
+                                        Color="{StaticResource FramesLetters}" />
+                                </ImageButton.Source>
+                            </ImageButton>
+                        </HorizontalStackLayout>
+                    </StackLayout>
+
+
+                    <!--  Recomendaciones Moto  -->
+                    <Frame>
+                        <StackLayout>
+
+                            <Grid ColumnDefinitions="*,*">
+                                <HorizontalStackLayout Grid.Column="0" Spacing="10">
+                                    <Image HeightRequest="25" VerticalOptions="Start">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="MIR"
+                                                Glyph="{x:Static models:IconFontMaterial.Sports_motorsports}"
+                                                Size="50"
+                                                Color="{StaticResource FramesLetters}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Label
+                                        Text="RECOMENDACIONES"
+                                        TextColor="{StaticResource FramesLetters}"
+                                        VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+
+                                <HorizontalStackLayout
+                                    Grid.Column="1"
+                                    HorizontalOptions="End"
+                                    Spacing="2">
+                                    <Image HeightRequest="15" VerticalOptions="Center">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                x:Name="star1"
+                                                FontFamily="FAS"
+                                                Glyph="{x:Static models:IconFontAwesome.Star}"
+                                                Size="50" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Image HeightRequest="15" VerticalOptions="Center">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                x:Name="star2"
+                                                FontFamily="FAS"
+                                                Glyph="{x:Static models:IconFontAwesome.Star}"
+                                                Size="50" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Image HeightRequest="15" VerticalOptions="Center">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                x:Name="star3"
+                                                FontFamily="FAS"
+                                                Glyph="{x:Static models:IconFontAwesome.Star}"
+                                                Size="50" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Image HeightRequest="15" VerticalOptions="Center">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                x:Name="star4"
+                                                FontFamily="FAS"
+                                                Glyph="{x:Static models:IconFontAwesome.Star}"
+                                                Size="50" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Image HeightRequest="15" VerticalOptions="Center">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                x:Name="star5"
+                                                FontFamily="FAS"
+                                                Glyph="{x:Static models:IconFontAwesome.Star}"
+                                                Size="50" />
+                                        </Image.Source>
+                                    </Image>
+                                </HorizontalStackLayout>
+                            </Grid>
+
+
+                            <StackLayout Margin="0,15,0,0">
+                                <Label x:Name="recomendaciones" />
+
+
+                                <HorizontalStackLayout
+                                    Grid.Column="0"
+                                    Margin="0,20,0,0"
+                                    Spacing="10">
+                                    <Image HeightRequest="25" VerticalOptions="Start">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="MIR"
+                                                Glyph="{x:Static models:IconFontMaterial.Warning}"
+                                                Size="50"
+                                                Color="{StaticResource FramesLetters}" />
+                                        </Image.Source>
+                                    </Image>
+                                    <Label
+                                        Text="ALERTAS"
+                                        TextColor="{StaticResource FramesLetters}"
+                                        VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+
+                                <Label x:Name="alertas" Margin="0,15,0,0" />
+
+                                <Label
+                                    Margin="0,15,0,0"
+                                    FontAttributes="Italic"
+                                    FontSize="10"
+                                    Text="Recuerda que la seguridad es lo primero al salir en moto. Si las condiciones climáticas son extremas, como fuertes lluvias, nieve o viento extremadamente alto, considera posponer tu viaje o ajustar tus planes en consecuencia. Además, verifica siempre el pronóstico del tiempo antes de salir y mantén un teléfono móvil cargado en caso de emergencia." />
+                            </StackLayout>
+
+                        </StackLayout>
                     </Frame>
 
+                    <Grid ColumnSpacing="10" RowSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="100" />
+                        </Grid.RowDefinitions>
+
+                        <Frame
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Padding="20,10,10,0">
+
+                            <Grid ColumnDefinitions="*,*" RowDefinitions="40,60">
+                                <HorizontalStackLayout
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Spacing="10">
+                                    <Image HeightRequest="20" VerticalOptions="Start">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="FAS"
+                                                Glyph="{x:Static models:IconFontAwesome.Wind}"
+                                                Size="50"
+                                                Color="{StaticResource FramesLetters}" />
+                                        </Image.Source>
+                                    </Image>
+
+                                    <Label
+                                        HorizontalTextAlignment="Start"
+                                        Text="VIENTO"
+                                        TextColor="{StaticResource FramesLetters}"
+                                        VerticalTextAlignment="Start" />
+                                </HorizontalStackLayout>
+                                <Label
+                                    x:Name="windSpeed"
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2"
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    HorizontalTextAlignment="Start"
+                                    VerticalTextAlignment="Start" />
+                                <Image
+                                    x:Name="windDirection"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    WidthRequest="25">
+
+                                    <Image.Source>
+                                        <FontImageSource
+                                            FontFamily="MIR"
+                                            Glyph="{x:Static models:IconFontMaterial.North}"
+                                            Size="50"
+                                            Color="{AppThemeBinding Light={StaticResource Black},
+                                                                    Dark={StaticResource White}}" />
+                                    </Image.Source>
+                                </Image>
+                            </Grid>
+                        </Frame>
+
+                        <Frame
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Padding="20,10,10,0">
+
+                            <Grid RowDefinitions="40,60">
+                                <HorizontalStackLayout Grid.Row="0" Spacing="10">
+                                    <Image HeightRequest="20" VerticalOptions="Start">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="FAS"
+                                                Glyph="{x:Static models:IconFontAwesome.Water}"
+                                                Size="50"
+                                                Color="{StaticResource FramesLetters}" />
+                                        </Image.Source>
+                                    </Image>
+
+                                    <Label
+                                        HorizontalTextAlignment="Start"
+                                        Text="HUMEDAD"
+                                        TextColor="{StaticResource FramesLetters}"
+                                        VerticalTextAlignment="Start" />
+                                </HorizontalStackLayout>
+                                <Label
+                                    x:Name="humidity"
+                                    Grid.Row="1"
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    HorizontalTextAlignment="Start"
+                                    VerticalTextAlignment="Start" />
+                            </Grid>
+                        </Frame>
+
+                        <Frame
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Padding="20,10,10,0">
+
+                            <Grid RowDefinitions="40,60">
+                                <HorizontalStackLayout Grid.Row="0" Spacing="10">
+                                    <Image HeightRequest="20" VerticalOptions="Start">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="FAS"
+                                                Glyph="{x:Static models:IconFontAwesome.Sun}"
+                                                Size="50"
+                                                Color="{StaticResource FramesLetters}" />
+                                        </Image.Source>
+                                    </Image>
+
+                                    <Label
+                                        HorizontalTextAlignment="Start"
+                                        Text="SALIDA/PUESTA"
+                                        TextColor="{StaticResource FramesLetters}"
+                                        VerticalTextAlignment="Start" />
+                                </HorizontalStackLayout>
+                                <Label
+                                    x:Name="sun"
+                                    Grid.Row="1"
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    HorizontalTextAlignment="Start"
+                                    VerticalTextAlignment="Start" />
+                            </Grid>
+                        </Frame>
+
+                        <Frame
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Padding="20,10,10,0">
+
+                            <Grid RowDefinitions="40,60">
+                                <HorizontalStackLayout Grid.Row="0" Spacing="10">
+                                    <Image HeightRequest="20" VerticalOptions="Start">
+                                        <Image.Source>
+                                            <FontImageSource
+                                                FontFamily="FAS"
+                                                Glyph="{x:Static models:IconFontAwesome.TemperatureHalf}"
+                                                Size="50"
+                                                Color="{StaticResource FramesLetters}" />
+                                        </Image.Source>
+                                    </Image>
+
+                                    <Label
+                                        HorizontalTextAlignment="Start"
+                                        Text="SENSACIÓN"
+                                        TextColor="{StaticResource FramesLetters}"
+                                        VerticalTextAlignment="Start" />
+                                </HorizontalStackLayout>
+                                <Label
+                                    x:Name="feelsLike"
+                                    Grid.Row="1"
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    HorizontalTextAlignment="Start"
+                                    VerticalTextAlignment="Start" />
+                            </Grid>
+                        </Frame>
+                    </Grid>
+
                     <!--  Pronóstico  -->
-                    <!--
-                    <ListView x:Name="ListViewForecast" RowHeight="200">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout>
-                                        <Label Text="{Binding DateTimeText}" />
-                                        <Label Text="{Binding WeatherConditions[0].Description}" />
-                                        <Label Text="{Binding Wind.Speed}" />
-                                        <Label Text="{Binding MainData.TemperatureMin}" />
-                                        <Label Text="{Binding MainData.TemperatureMax}" />
-                                        <Grid>
-                                            <Image HeightRequest="100" Source="{Binding WeatherConditions[0].Icon, StringFormat='http://openweathermap.org/img/wn/{0}.png'}" />
-                                            <Image HeightRequest="100" Source="{Binding WeatherConditions[0].Icon, StringFormat='https://openweathermap.org/img/wn/{0}@2x.png'}" />
-                                        </Grid>
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                    -->
+                    <Frame>
+                        <ListView
+                            x:Name="ListViewForecast"
+                            SelectionMode="None"
+                            VerticalScrollBarVisibility="Never">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <FlexLayout
+                                            HorizontalOptions="CenterAndExpand"
+                                            JustifyContent="SpaceBetween"
+                                            Wrap="NoWrap">
+                                            <Label Text="{Binding DateTimeText, Converter={StaticResource DateTimeFormatConverter}}" VerticalTextAlignment="Center" />
+                                            <Label Text="{Binding Wind.Speed, Converter={StaticResource WindSpeedConverter}}" VerticalTextAlignment="Center" />
+                                            <Label Text="{Binding MainData.Temperature, Converter={StaticResource TemperatureRound}}" VerticalTextAlignment="Center" />
+                                            <Grid>
+                                                <Image HeightRequest="50" Source="{Binding WeatherConditions[0].Icon, StringFormat='http://openweathermap.org/img/wn/{0}.png'}" />
+                                                <Image HeightRequest="50" Source="{Binding WeatherConditions[0].Icon, StringFormat='https://openweathermap.org/img/wn/{0}@2x.png'}" />
+                                            </Grid>
+                                        </FlexLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Frame>
+
+                    <Frame>
+                        <Button
+                            x:Name="pronosticoButton"
+                            BackgroundColor="Transparent"
+                            Clicked="pronosticoButton_Clicked"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="Mostrar pronóstico ampliado"
+                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                        Dark={StaticResource White}}" />
+                    </Frame>
 
                 </StackLayout>
 
+                <Label
+                    FontSize="12"
+                    HorizontalOptions="Center"
+                    Text="Creado con .NET MAUI 09/09/2023 Fran Díaz"
+                    TextColor="{StaticResource FramesLetters}" />
+
             </StackLayout>
+        </ScrollView>
 
-        </Grid>
+        <ActivityIndicator
+            x:Name="loadingIndicator"
+            AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            IsRunning="False"
+            IsVisible="False"
+            Color="Blue" />
 
-    </ScrollView>
+    </AbsoluteLayout>
+
+
 
 </ContentPage>
+

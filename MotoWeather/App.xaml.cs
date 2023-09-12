@@ -1,5 +1,4 @@
-﻿using Microsoft.Maui.ApplicationModel;
-using MotoWeather.Views;
+﻿using MotoWeather.Views;
 
 namespace MotoWeather
 {
@@ -11,7 +10,7 @@ namespace MotoWeather
 
             //MainPage = new AppShell();
 
-            Application.Current.UserAppTheme = AppTheme.Light;
+            //Application.Current.UserAppTheme = AppTheme.Dark;
 
             MainPage = new WeatherPage();
         }

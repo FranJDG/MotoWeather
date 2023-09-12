@@ -31,12 +31,47 @@
 		<UserSecretsId>9daab773-8884-437e-bfb9-0b68bc6abe31</UserSecretsId>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
+		<ApplicationTitle>MotoWeather</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+		<ApplicationTitle>MotoWeather</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|AnyCPU'">
+		<ApplicationTitle>MotoWeather</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
+		<ApplicationTitle>MotoWeather</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android|AnyCPU'">
+		<ApplicationTitle>MotoWeather</ApplicationTitle>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+		<ApplicationTitle>MotoWeather</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
+		<ApplicationTitle>MotoWeather</ApplicationTitle>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
+		<ApplicationTitle>MotoWeather</ApplicationTitle>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<!--<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />-->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="White"></MauiIcon>
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<!--<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />-->
+		<MauiSplashScreen Include="Resources\Splash\motorbike_splash.svg" Color="#202B3B" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -50,29 +85,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\air.svg" />
-	  <None Remove="Resources\Images\direction.svg" />
-	  <None Remove="Resources\Images\distance.svg" />
-	  <None Remove="Resources\Images\humidity_low.svg" />
-	  <None Remove="Resources\Images\humidity_percentage.svg" />
-	  <None Remove="Resources\Images\loading.gif" />
-	  <None Remove="Resources\Images\location_on.svg" />
-	  <None Remove="Resources\Images\location_searching.svg" />
-	  <None Remove="Resources\Images\near_me.svg" />
-	  <None Remove="Resources\Images\opacity.svg" />
-	  <None Remove="Resources\Images\refresh.svg" />
-	  <None Remove="Resources\Images\search.svg" />
-	  <None Remove="Resources\Images\share_location.svg" />
-	  <None Remove="Resources\Images\speed.svg" />
-	  <None Remove="Resources\Images\thermometer.svg" />
-	  <None Remove="Resources\Images\thermostat.svg" />
-	  <None Remove="Resources\Images\water.svg" />
-	  <None Remove="Resources\Images\wb_twilight.svg" />
-	  <None Remove="secrets.json" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Include="secrets.json" />
+		<None Remove="Resources\AppIcon\appicon.svg" />
+		<None Remove="Resources\Fonts\Brands-Regular-400.otf" />
+		<None Remove="Resources\Fonts\Free-Regular-400.otf" />
+		<None Remove="Resources\Fonts\Free-Solid-900.otf" />
+		<None Remove="Resources\Fonts\Sono-Bold.ttf" />
+		<None Remove="Resources\Fonts\Sono-ExtraBold.ttf" />
+		<None Remove="Resources\Fonts\Sono-ExtraLight.ttf" />
+		<None Remove="Resources\Fonts\Sono-Light.ttf" />
+		<None Remove="Resources\Fonts\Sono-Medium.ttf" />
+		<None Remove="Resources\Fonts\Sono-Regular.ttf" />
+		<None Remove="Resources\Fonts\Sono-SemiBold.ttf" />
+		<None Remove="Resources\Splash\motorbike_splash.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -82,13 +106,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\WeatherPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="Views\ForecastPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\WeatherPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 	</ItemGroup>
 
 </Project>

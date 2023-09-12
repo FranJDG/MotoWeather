@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MotoWeather.Views.ForecastPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:MotoWeather.Models"
+    Title="ForecastPage"
+    BackgroundColor="{AppThemeBinding Light={StaticResource BackgoundWhite},
+                                      Dark={StaticResource BackgroundDark}}">
+
+    <AbsoluteLayout Margin="20">
+        <ScrollView
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            VerticalScrollBarVisibility="Never">
+
+            <StackLayout Spacing="10">
+                <Grid>
+                    <ImageButton
+                        x:Name="returnButton"
+                        BackgroundColor="Transparent"
+                        Clicked="returnButton_Clicked"
+                        HorizontalOptions="Start">
+                        <ImageButton.Source>
+                            <FontImageSource
+                                FontFamily="MIR"
+                                Glyph="{x:Static models:IconFontMaterial.Keyboard_return}"
+                                Color="{AppThemeBinding Light={StaticResource Black},
+                                                        Dark={StaticResource White}}" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                    <Label
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="Pronóstico ampliado"
+                        VerticalOptions="Center" />
+                </Grid>
+
+                <!--  Pronóstico  -->
+                <Frame>
+                    <ListView
+                        x:Name="ListViewForecastFull"
+                        SelectionMode="None"
+                        VerticalScrollBarVisibility="Never">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <FlexLayout
+                                        HorizontalOptions="CenterAndExpand"
+                                        JustifyContent="SpaceBetween"
+                                        Wrap="NoWrap">
+                                        <Label Text="{Binding DateTimeText, Converter={StaticResource DateTimeFormatConverter}}" VerticalTextAlignment="Center" />
+                                        <Label Text="{Binding Wind.Speed, Converter={StaticResource WindSpeedConverter}}" VerticalTextAlignment="Center" />
+                                        <Label Text="{Binding MainData.Temperature, Converter={StaticResource TemperatureRound}}" VerticalTextAlignment="Center" />
+                                        <Grid>
+                                            <Image HeightRequest="50" Source="{Binding WeatherConditions[0].Icon, StringFormat='http://openweathermap.org/img/wn/{0}.png'}" />
+                                            <Image HeightRequest="50" Source="{Binding WeatherConditions[0].Icon, StringFormat='https://openweathermap.org/img/wn/{0}@2x.png'}" />
+                                        </Grid>
+                                    </FlexLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Frame>
+
+            </StackLayout>
+
+        </ScrollView>
+
+        <ActivityIndicator
+            x:Name="loadingIndicator"
+            AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            IsRunning="False"
+            IsVisible="False"
+            Color="Blue" />
+    </AbsoluteLayout>
+
+</ContentPage>

@@ -5,11 +5,9 @@ namespace MotoWeather.Controllers
 {
     internal class WeatherController
     {
-        //Url OpenWeatherMap https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+        //Url OpenWeatherMap https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}        
 
-        private string ApiKey = MauiProgram.WeatherAPIKey;
-
-        //private const string ApiKey = "";
+        private const string ApiKey = ""; //Introducir APIKey
         private const string ApiBaseUrlWeather = "https://api.openweathermap.org/data/2.5/weather";
         private const string ApiBaseUrlForecast = "https://api.openweathermap.org/data/2.5/forecast";
 
