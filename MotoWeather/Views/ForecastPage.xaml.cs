@@ -11,6 +11,15 @@ public partial class ForecastPage : ContentPage
     {
         InitializeComponent();
 
+        if (Microsoft.Maui.Devices.DeviceInfo.Platform != Microsoft.Maui.Devices.DevicePlatform.WinUI)
+        {
+            scroll.VerticalScrollBarVisibility = ScrollBarVisibility.Never;
+        }
+        else
+        {
+            scroll.VerticalScrollBarVisibility = ScrollBarVisibility.Always;
+        }
+
         Resources.Add("WindSpeedConverter", new WindSpeedConverter());
         Resources.Add("DateTimeFormatConverter", new DateTimeFormatConverter());
         Resources.Add("TemperatureRound", new TemperatureRound());

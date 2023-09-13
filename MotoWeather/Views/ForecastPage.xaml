@@ -10,9 +10,9 @@
 
     <AbsoluteLayout Margin="20">
         <ScrollView
+            x:Name="scroll"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
-            AbsoluteLayout.LayoutFlags="All"
-            VerticalScrollBarVisibility="Never">
+            AbsoluteLayout.LayoutFlags="All">
 
             <StackLayout Spacing="10">
                 <Grid>

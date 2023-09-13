@@ -13,6 +13,15 @@ public partial class WeatherPage : ContentPage
     {
         InitializeComponent();
 
+        if (Microsoft.Maui.Devices.DeviceInfo.Platform != Microsoft.Maui.Devices.DevicePlatform.WinUI)
+        {
+            scroll.VerticalScrollBarVisibility = ScrollBarVisibility.Never;
+        }
+        else
+        {
+            scroll.VerticalScrollBarVisibility = ScrollBarVisibility.Always;
+        }
+
         Resources.Add("WindSpeedConverter", new WindSpeedConverter());
         Resources.Add("DateTimeFormatConverter", new DateTimeFormatConverter());
         Resources.Add("TemperatureRound", new TemperatureRound());
@@ -29,11 +38,17 @@ public partial class WeatherPage : ContentPage
             weatherData = await weatherController.GetWeatherAsync(city);
             forecastData = await weatherController.GetForecastAsync(city);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            startMessage.IsVisible = true;
-            Main.IsVisible = false;
+            //startMessage.IsVisible = true;
+            //Main.IsVisible = false;
             Loading(false);
+
+            if (ex.Message == "Response status code does not indicate success: 404 (Not Found).")
+                await DisplayAlert("", "Introduce una ciudad o código postal válido", "OK");
+            else
+                await DisplayAlert("", ex.Message, "OK");
+
             return;
         }
 
@@ -94,7 +109,7 @@ public partial class WeatherPage : ContentPage
         }
         else
         {
-            return;
+            DisplayAlert("", "Introduce una ciudad o código postal válido", "OK");
         }
     }
 
@@ -133,11 +148,11 @@ public partial class WeatherPage : ContentPage
         recomendaciones.Text = string.Empty;
         alertas.Text = string.Empty;
 
-        if (temp >= 28 || wind >= 35 || temp < 5)
+        if (temp >= 30 || wind >= 30 || temp < 5)
         {
             recomendaciones.Text = "No es recomendable salir en moto.";
 
-            if ((temp >= 30 || temp < 5) && wind >= 35)
+            if ((temp >= 30 || temp < 5) && wind >= 30)
             {
                 Star0();
                 alertas.Text = "Temperatura y viento extremos.";
@@ -168,7 +183,7 @@ public partial class WeatherPage : ContentPage
                         "Usa ropa transpirable y mantente hidratado.";
                 }
             }
-            else if (wind >= 35)
+            else if (wind >= 30)
             {
                 Star1();
                 alertas.Text = "Viento extremo.";
@@ -189,7 +204,7 @@ public partial class WeatherPage : ContentPage
         {
             recomendaciones.Text = "Recomendable llevar ropa bien ventilada. No olvides el casco y guantes de verano.";
 
-            if (wind >= 25 && wind <= 35)
+            if (wind >= 20 && wind <= 30)
             {
                 Star2();
                 alertas.Text = "Precaución, altas temperaturas y fuerte viento.";
@@ -205,7 +220,7 @@ public partial class WeatherPage : ContentPage
                         "Usa ropa transpirable y mantente hidratado.";
                 }
             }
-            else if (wind >= 10 && wind < 25)
+            else if (wind >= 15 && wind < 20)
             {
                 Star3();
                 alertas.Text = "Precaución, altas temperaturas y posibles ráfagas de viento.";
@@ -219,7 +234,7 @@ public partial class WeatherPage : ContentPage
                         "Usa ropa transpirable y mantente hidratado.";
                 }
             }
-            else if (wind >= 0 && wind < 10)
+            else if (wind >= 0 && wind < 15)
             {
                 Star4();
                 alertas.Text = "Precaución, altas temperaturas.";
@@ -236,9 +251,9 @@ public partial class WeatherPage : ContentPage
         }
         else if (temp >= 20 && temp < 25)
         {
-            recomendaciones.Text = "Recomendable llevar ropa bien ventilada. Añade una capa base si hace falta y no olvides el casco y guantes de verano.";
+            recomendaciones.Text = "Recomendable llevar ropa bien ventilada. Añade una capa interior si hace falta y no olvides el casco y guantes de verano.";
 
-            if (wind >= 25 && wind <= 35)
+            if (wind >= 20 && wind <= 30)
             {
                 Star3();
                 alertas.Text = "Precaución, fuerte viento.";
@@ -254,7 +269,7 @@ public partial class WeatherPage : ContentPage
                         "Usa ropa transpirable y mantente hidratado.";
                 }
             }
-            else if (wind >= 10 && wind < 25)
+            else if (wind >= 15 && wind < 20)
             {
                 Star4();
                 alertas.Text = "Precaución, posibles ráfagas de viento.";
@@ -268,7 +283,7 @@ public partial class WeatherPage : ContentPage
                         "Usa ropa transpirable y mantente hidratado.";
                 }
             }
-            else if (wind >= 0 && wind < 10)
+            else if (wind >= 0 && wind < 15)
             {
                 Star5();
                 alertas.Text = "Clima ideal!!";
@@ -288,7 +303,7 @@ public partial class WeatherPage : ContentPage
             recomendaciones.Text = "Recomendable llevar ropa medianamente cálida. Añade una capa interior si hace falta y utiliza bragas, " +
                 "no olvides el casco y guantes de entretiempo.";
 
-            if (wind >= 25 && wind <= 35)
+            if (wind >= 20 && wind <= 30)
             {
                 Star3();
                 alertas.Text = "Precaución, fuerte viento.";
@@ -300,7 +315,7 @@ public partial class WeatherPage : ContentPage
                     alertas.Text += "\nPosibilidad de humedad en curvas sombrías a primeras horas de la mañana.";
                 }
             }
-            else if (wind >= 10 && wind < 25)
+            else if (wind >= 15 && wind < 20)
             {
                 Star4();
                 alertas.Text = "Precaución, posibles ráfagas de viento.";
@@ -310,7 +325,7 @@ public partial class WeatherPage : ContentPage
                     alertas.Text += "\nPosibilidad de humedad en curvas sombrías a primeras horas de la mañana.";
                 }
             }
-            else if (wind >= 0 && wind < 10)
+            else if (wind >= 0 && wind < 15)
             {
                 Star5();
                 alertas.Text = "Clima ideal!!";
@@ -326,7 +341,7 @@ public partial class WeatherPage : ContentPage
             recomendaciones.Text = "Elige una chaqueta de moto cálida y pantalones aislados. Usa capas adicionales como una camiseta térmica " +
                 "y unas bragas para el cuello si es necesario. Guantes de invierno.";
 
-            if (wind >= 25 && wind <= 35)
+            if (wind >= 20 && wind <= 30)
             {
                 Star3();
                 alertas.Text = "Precaución, fuerte viento.";
@@ -338,7 +353,7 @@ public partial class WeatherPage : ContentPage
                     alertas.Text += "\nPosibilidad de humedad en curvas sombrías.";
                 }
             }
-            else if (wind >= 10 && wind < 25)
+            else if (wind >= 15 && wind < 20)
             {
                 Star4();
                 alertas.Text = "Precaución, posibles ráfagas de viento.";
@@ -348,7 +363,7 @@ public partial class WeatherPage : ContentPage
                     alertas.Text += "\nPosibilidad de humedad en curvas sombrías.";
                 }
             }
-            else if (wind >= 0 && wind < 10)
+            else if (wind >= 0 && wind < 15)
             {
                 Star5();
                 alertas.Text = "Equípate bien y a disfrutar de la ruta!!";
@@ -364,7 +379,7 @@ public partial class WeatherPage : ContentPage
             recomendaciones.Text = "En condiciones de frío extremo, opta por una chaqueta y pantalones de moto con forro térmico. " +
                 "Usar ropa térmica debajo es esencial. Lleva guantes cálidos, un pasamontañas y una bufanda o cuello alto para proteger tu cuello y rostro.";
 
-            if (wind >= 25 && wind <= 35)
+            if (wind >= 20 && wind <= 30)
             {
                 Star2();
                 alertas.Text = "Bajas temperaturas.";
@@ -377,7 +392,7 @@ public partial class WeatherPage : ContentPage
                     alertas.Text += "\nPosibilidad de humedad en curvas sombrías.";
                 }
             }
-            else if (wind >= 10 && wind < 25)
+            else if (wind >= 15 && wind < 20)
             {
                 Star3();
                 alertas.Text = "Bajas temperaturas.";
@@ -388,7 +403,7 @@ public partial class WeatherPage : ContentPage
                     alertas.Text += "\nPosibilidad de humedad en curvas sombrías.";
                 }
             }
-            else if (wind >= 0 && wind < 10)
+            else if (wind >= 0 && wind < 15)
             {
                 Star4();
                 alertas.Text = "Bajas temperaturas.";
