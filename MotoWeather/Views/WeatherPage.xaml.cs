@@ -62,7 +62,7 @@ public partial class WeatherPage : ContentPage
         temperature.Text = Math.Round(weatherData.MainData.Temperature).ToString() + "º";
         humidity.Text = weatherData.MainData.Humidity.ToString() + "%";
         windSpeed.Text = WindToKmH(weatherData.Wind.Speed).ToString() + " km/h";
-        windDirection.Rotation = weatherData.Wind.Direction;
+        windDirection.Rotation = weatherData.Wind.Direction + 180; //La API nos devuelve la dirección desde la que viene el viento, no hacia donde va
         string sunrise = UnixToTime(weatherData.Sys.Sunrise, weatherData.Timezone);
         string sunset = UnixToTime(weatherData.Sys.Sunset, weatherData.Timezone);
         sun.Text = sunrise + " - " + sunset;
